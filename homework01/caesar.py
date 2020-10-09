@@ -1,6 +1,5 @@
 import typing as tp
 
-
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -15,9 +14,17 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    new_word = []
+    for i in ciphertext:
+        if ord(i)>=65 and ord(i)<=90:
+            ciphertext = chr((((ord(i)-65)+shift)%26)+65)
+            new_word.append(ciphertext)
+        elif ord(i)>=97 and ord(i)<=122:
+            ciphertext=chr((((ord(i)-97)+shift)%26)+97)
+            new_word.append(ciphertext)
+        else: 
+            new_word.append(i)
     return ciphertext
-
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
@@ -33,14 +40,14 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
-
-
-def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
-    """
-    Brute force breaking a Caesar cipher.
-    """
-    best_shift = 0
-    # PUT YOUR CODE HERE
-    return best_shift
+    new_word = []
+    for i in plaintext:
+        if ord(i)>=65 and ord(i)<=90:
+            plaintext = chr((((ord(i)-65)+shift)%26)+65)
+            new_word.append(plaintext)
+        elif ord(i)>=97 and ord(i)<=122:
+            plaintext=chr((((ord(i)-97)+shift)%26)+97)
+            new_word.append(plaintext)
+        else: 
+            new_word.append(i)
+    return plaintext 
