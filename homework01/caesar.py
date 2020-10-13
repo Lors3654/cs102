@@ -17,10 +17,10 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     new_word = []
     for i in plaintext:
         if ord(i)>=65 and ord(i)<=90:
-            ciphertext = chr((((ord(i)-65)+shift)%26)+65)
+            ciphertext = chr((((ord(i) - 65) + shift) % 26) + 65)
             new_word.append(ciphertext)
         elif ord(i)>=97 and ord(i)<=122:
-            ciphertext=chr((((ord(i)-97)+shift)%26)+97)
+            ciphertext = chr((((ord(i)- 97) + shift) % 26) + 97)
             new_word.append(ciphertext)
         else: 
             new_word.append(i)
