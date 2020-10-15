@@ -10,12 +10,20 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    key_length = len(keyword)
-    key_as_int = [ord(i) for i in keyword]
-    plaintext_int = [ord(i) for i in plaintext]
-    for i in range(len(plaintext_int)):
-        value = (plaintext_int[i] + key_as_int[i % key_length]) % 26
-        ciphertext += chr(value + 65)
+    while len(plaintext) > len(keyword):
+        keyword += keyword
+    for i in range(len(plaintext)):
+        x = plaintext[i]
+        y = keyword[i % len(keyword)]
+        if 'A' <= x <= 'Z':
+            code = ord(x) + ord(y) - ord("A")
+            if (code > ord('Z')):
+                code = code - 26
+        else:
+            code = ord(x) + ord(y) - ord("a")
+            if (code > ord('z')):
+                code = code - 26
+        ciphertext += chr(code)
     return ciphertext
 
 
@@ -31,10 +39,18 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    key_length = len(keyword)
-    key_as_int = [ord(i) for i in keyword]
-    ciphertext_int = [ord(i) for i in ciphertext]
-    for i in range(len(ciphertext_int)):
-        value = (ciphertext_int[i] - key_as_int[i % key_length]) % 26
-        plaintext += chr(value + 65)
+    while len(plaintext) > len(keyword):
+        keyword += keyword
+    for i in range(len(ciphertext)):
+        x = ciphertext[i]
+        y = keyword[i % len(keyword)]
+        if 'A' <= x <= 'Z':
+            code = ord(x) - ord(y) + ord("A")
+            if (code < ord('A')):
+                code = code + 26
+        else:
+            code = ord(x) - ord(y) + ord("a")
+            if (code < ord('a')):
+                code = code + 26
+        plaintext += chr(code)
     return plaintext
