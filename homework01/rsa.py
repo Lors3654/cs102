@@ -13,12 +13,12 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    if n<2:
+    if n < 2:
         return False
-    d = 2
-    while n % d!= 0:
-      d += 1
-    return d == n
+    m = 2
+    while n % m!= 0:
+      m += 1
+    return m == n
             
 
 
@@ -39,8 +39,8 @@ def gcd(a: int, b: int) -> int:
         else: 
             b = b % a
     gcd = a + b
-    if gcd == 1:
-        return gcd
+    return gcd
+
 
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
@@ -50,11 +50,26 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    if phi == 0:
-        return e, 1, 0
-    else:
-        d, x, y = gcdex (phi,e % phi)
-    return d, y, x-y*(e//phi)
+    
+    x = 1
+    y = 0
+    temp_phi = phi
+
+    while e > 1:
+        temp1 = e // phi
+        temp2 = phi
+        phi = e % phi
+        e = temp2
+        temp2 = y
+        y = x - temp1 * y
+        x = temp2
+    if phi == 1:
+        return 0
+    if x < 0:
+        x += temp_phi
+    return x
+
+    
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -63,7 +78,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
     elif p == q:
         raise ValueError("p and q cannot be equal")
 
-    n = p*q
+    n = p * q
     phi = (p-1)*(q-1)
 
     
