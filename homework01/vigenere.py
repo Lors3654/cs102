@@ -19,10 +19,12 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
             code = ord(x) + ord(y) - ord("A")
             if (code > ord('Z')):
                 code = code - 26
-        else:
+        elif 'a' <= x <= 'z':
             code = ord(x) + ord(y) - ord("a")
             if (code > ord('z')):
                 code = code - 26
+        else:
+            ciphertext += i
         ciphertext += chr(code)
     return ciphertext
 
@@ -48,9 +50,11 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
             code = ord(x) - ord(y) + ord("A")
             if (code < ord('A')):
                 code = code + 26
-        else:
+        elif 'a'<= x <= 'z':
             code = ord(x) - ord(y) + ord("a")
             if (code < ord('a')):
                 code = code + 26
+        else:
+            plaintext += i 
         plaintext += chr(code)
     return plaintext
