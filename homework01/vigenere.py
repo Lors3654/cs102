@@ -10,21 +10,20 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    while len(plaintext) > len(keyword):
-        keyword += keyword
     for i in range(len(plaintext)):
         x = plaintext[i]
         y = keyword[i % len(keyword)]
-        if 'A' <= x <= 'Z':
-            code = ord(x) + ord(y) - ord("A")
-            if (code > ord('Z')):
-                code = code - 26
-        elif 'a' <= x <= 'z':
-            code = ord(x) + ord(y) - ord("a")
-            if (code > ord('z')):
-                code = code - 26
+        if x.isalpha():
+            if 'A' <= y <= 'Z':
+                code = ord(x) + ord(y) - ord("A")
+                if (code > ord('Z')):
+                     code = code - 26
+            elif 'a' <= y <= 'z':
+                code = ord(x) + ord(y) - ord("a")
+                if (code > ord('z')):
+                    code = code - 26
         else:
-            ciphertext += i
+            code=ord(x)
         ciphertext += chr(code)
     return ciphertext
 
@@ -41,20 +40,20 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    while len(plaintext) > len(keyword):
-        keyword += keyword
+    
     for i in range(len(ciphertext)):
         x = ciphertext[i]
         y = keyword[i % len(keyword)]
-        if 'A' <= x <= 'Z':
-            code = ord(x) - ord(y) + ord("A")
-            if (code < ord('A')):
-                code = code + 26
-        elif 'a'<= x <= 'z':
-            code = ord(x) - ord(y) + ord("a")
-            if (code < ord('a')):
-                code = code + 26
+        if x.isalpha():
+            if 'A' <= y <= 'Z':
+                code = ord(x) - ord(y) + ord("A")
+                if (code < ord('A')):
+                    code = code + 26
+            elif 'a'<= y <= 'z':
+                code = ord(x) - ord(y) + ord("a")
+                if (code < ord('a')):
+                    code = code + 26
         else:
-            plaintext += i 
+            code=ord(x) 
         plaintext += chr(code)
     return plaintext
