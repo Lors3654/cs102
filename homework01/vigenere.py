@@ -34,7 +34,7 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
     """
-    plaintext = ''
+    plaintext = ""
     for i in range (len(ciphertext)):
         x = i % len(keyword)
         y = keyword[x]
