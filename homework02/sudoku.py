@@ -188,20 +188,15 @@ def generate_sudoku(N: int) -> List[List[str]]:
     >>> check_solution(solution)
     True
     """
-    grid = []
-    N = 81 - min(81, max(N, 0))
-    for row in range(9):
-        sudoku = []
-        for col in range(9):
-            sudoku.append(".")
-        grid.append(sudoku)
-
-    while N != 0:
-        row = random.randint(0, 8)
-        col = random.randint(0, 8)
-        if grid[row][col] != ".":
-            grid[row][col] = "."
-            N -= 1
+    grid = [['.' for i in range(0, 9)] for i in range(0, 9)]
+    N = 81 - min(81, max(0, N))
+    i = 0
+    while i < (81 - N):
+        row = random.randrange(0, 9)
+        col = random.randrange(0, 9)
+        if grid[row][col] != '.':
+            grid[row][col] = '.'
+            i += 1
     return grid
 
 
