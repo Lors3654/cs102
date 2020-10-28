@@ -188,15 +188,39 @@ def generate_sudoku(N: int) -> List[List[str]]:
     >>> check_solution(solution)
     True
     """
-    grid = [["." for i in range(0, 9)] for i in range(0, 9)]
-    N = 81 - min(81, max(0, N))
-    i = 0
-    while i < (81 - N):
-        row = random.randrange(0, 9)
-        col = random.randrange(0, 9)
+    N = 81 - min(N, 81)
+    grid = [[""] * 9 for _ in range(9)]
+
+    for i in range(9):
+        for j in range(9):
+            if 0 <= i < 3:
+                grid[i][j] = str((i * 3 + j) % 9 + 1)
+            elif 3 <= i < 6:
+                grid[i][j] = str((3 * (i % 3) + 1 + j) % 9 + 1)
+            else:
+                grid[i][j] = str((3 * (i % 3) + 2 + j) % 9 + 1)
+
+    for i in range(9):
+        for j in range(i, 9):
+            temp = grid[i][j]
+            grid[i][j] = grid[j][i]
+            grid[j][i] = temp
+
+    row1, row2 = random.randint(0, 2), random.randint(0, 2)
+    grid[row1], grid[row2] = grid[row2], grid[row1]
+
+    col1, col2 = random.randint(3, 5), random.randint(3, 5)
+    for i in range(9):
+        temp = grid[i][col1]
+        grid[i][col1] = grid[i][col2]
+        grid[i][col2] = temp
+
+    while N:
+        row, col = random.randint(0, 8), random.randint(0, 8)
         if grid[row][col] != ".":
             grid[row][col] = "."
-            i += 1
+            N -= 1
+
     return grid
 
 
