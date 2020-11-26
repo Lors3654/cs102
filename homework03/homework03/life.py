@@ -1,7 +1,10 @@
 import pathlib
 import random
 import typing as tp
+<<<<<<< HEAD:homework03/life.py
 from copy import deepcopy
+=======
+>>>>>>> master:homework03/homework03/life.py
 
 import pygame
 from pygame.locals import *
@@ -128,8 +131,12 @@ class GameOfLife:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
+<<<<<<< HEAD:homework03/life.py
         f = open(filename, 'w')
         for row in self.curr_generation:
             for ch in row:
                 f.write(''.join(str(ch)) + '\n')
         f.close()
+=======
+        pass
+>>>>>>> master:homework03/homework03/life.py
