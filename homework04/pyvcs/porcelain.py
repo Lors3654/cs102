@@ -2,7 +2,6 @@ import os
 import pathlib
 import typing as tp
 
-# type: ignore
 from pyvcs.index import read_index, update_index
 from pyvcs.objects import (commit_parse, find_object, find_tree_files,
                            read_object, read_tree)
