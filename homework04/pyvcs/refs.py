@@ -1,8 +1,6 @@
 import pathlib
 import typing as tp
 
-# type: ignore
-
 
 def update_ref(gitdir: pathlib.Path, ref: tp.Union[str, pathlib.Path], new_value: str) -> None:
     # PUT YOUR CODE HERE
