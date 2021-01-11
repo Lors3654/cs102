@@ -7,8 +7,6 @@ import typing as tp
 
 from pyvcs.objects import hash_object
 
-# type: ignore
-
 
 class GitIndexEntry(tp.NamedTuple):
     # @see: https://github.com/git/git/blob/master/Documentation/technical/index-format.txt
