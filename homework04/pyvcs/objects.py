@@ -7,7 +7,6 @@ import sys
 import typing as tp
 import zlib
 
-# type: ignore
 from pyvcs.refs import update_ref
 from pyvcs.repo import repo_find
 
