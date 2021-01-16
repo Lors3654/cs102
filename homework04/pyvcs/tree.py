@@ -4,16 +4,19 @@ import stat
 import time
 import typing as tp
 
-from pyvcs.index import GitIndexEntry, read_index
-from pyvcs.objects import hash_object
-from pyvcs.refs import get_ref, is_detached, resolve_head, update_ref
+from pyvcs.index import GitIndexEntry, read_index  # type:ignore
+from pyvcs.objects import hash_object  # type:ignore
+from pyvcs.refs import resolve_head  # type:ignore
+from pyvcs.refs import get_ref, is_detached, update_ref
 
 
 def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str = "") -> str:
     # PUT YOUR CODE HERE
     tree_content: tp.List[tp.Tuple[int, str, bytes]] = []
     subtrees: tp.Dict[str, tp.List[GitIndexEntry]] = dict()
-    files = [str(x) for x in (gitdir.parent / dirname).glob("*")]
+    files = []
+    for i in (gitdir.parent / dirname).glob("*"):
+        files.append(str(i))
     for entry in index:
         if entry.name in files:
             tree_content.append((entry.mode, str(gitdir.parent / entry.name), entry.sha1))
