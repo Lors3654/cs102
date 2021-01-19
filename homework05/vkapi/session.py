@@ -25,7 +25,9 @@ class Session(requests.Session):
     ) -> None:
         super().__init__()
         self.retries = Retry(
-            total=max_retries, backoff_factor=backoff_factor, status_forcelist=[500]
+            total=max_retries,
+            backoff_factor=backoff_factor,
+            status_forcelist=[413, 429, 500, 502, 503, 504],
         )
         self.mount(base_url, HTTPAdapter(max_retries=self.retries))
         self.base_url = base_url
