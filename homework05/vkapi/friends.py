@@ -37,6 +37,7 @@ def get_friends(
         "offset": offset,
     }
     response = session.get("friends.get", params=params)
+<<<<<<< HEAD
     doc = response.json()
     if "error" in doc or not response.ok:
         raise APIError(doc["error"]["error_msg"])
@@ -44,6 +45,14 @@ def get_friends(
         return FriendsResponse(
             count=doc["response"]["count"],
             items=doc["response"]["items"],
+=======
+    if "error" in response.json() or not response.ok:
+        raise APIError(response.json()["error"]["error_msg"])
+    else:
+        return FriendsResponse(
+            count=response.json()["response"]["count"],
+            items=response.json()["response"]["items"],
+>>>>>>> d7236b2aeb54c11a3747b43bbffcaa231fea410f
         )
 
 
@@ -82,10 +91,17 @@ def get_mutual(
             "order": order,
         }
         response = session.get(f"friends.getMutual", params=params)
+<<<<<<< HEAD
         doc = response.json()
         if "error" in doc or not response.ok:
             raise APIError(doc["error"]["error_msg"])
         return doc["response"]
+=======
+        response_json = response.json()
+        if "error" in response_json or not response.ok:
+            raise APIError(response_json["error"]["error_msg"])
+        return response_json["response"]
+>>>>>>> d7236b2aeb54c11a3747b43bbffcaa231fea410f
 
     responses = []
     if progress is None:
@@ -100,10 +116,17 @@ def get_mutual(
             "offset": offset + i * 100,
         }
         response = session.get(f"friends.getMutual", params=params)
+<<<<<<< HEAD
         doc = response.json()
         if "error" in doc or not response.ok:
             raise APIError(doc["error"]["error_msg"])
         for arg in doc["response"]:
+=======
+        file_resp = response.json()
+        if "error" in file_resp or not response.ok:
+            raise APIError(file_resp["error"]["error_msg"])
+        for arg in file_resp["response"]:
+>>>>>>> d7236b2aeb54c11a3747b43bbffcaa231fea410f
             responses.append(
                 MutualFriends(
                     id=arg["id"],
