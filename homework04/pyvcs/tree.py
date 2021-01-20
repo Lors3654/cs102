@@ -77,5 +77,5 @@ def commit_tree(
     lines.append(message)
     lines.append("")
     data = "\n".join(lines).encode()
-    sha1 = hash_object(data, "commit")
+    sha1 = hash_object(data, "commit", write=True)
     return sha1
