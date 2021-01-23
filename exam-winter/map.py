@@ -21,7 +21,7 @@ def read_map(filename: str):
 
 def restore(
     game_map: tp.List[tp.List[int]],
-    map_to_relax: tp.Dict[tp.Tuple[int, int], tp.Tuple[int, int]],
+    map_to_restore: tp.Dict[tp.Tuple[int, int], tp.Tuple[int, int]],
     start_pos: tp.Tuple[int, int],
     end_pos: tp.Tuple[int, int],
 ):
@@ -46,22 +46,23 @@ def solve(game_map: tp.List[tp.List[int]], start_pos: tp.Tuple[int, int]):
                 try:
                     k, m = curr_pos[0] - i, curr_pos[1] - j
                     if game_map[k][m] == 3:
-                        
-                    if game_map[k][m] == 2:
-                       
-                        return game_map, map_to_restore, start_pos, (k, m)
+                        if not (k, m) in map_to_restore:
+                            map_to_restore.update({(k, m): curr_pos})
+                            que.append((k, m))
+                    if game_map[i][j] == 2:
+                        map_to_restore.update({(i, j): curr_pos})
+                        return game_map, map_to_restore, start_pos, (i, j)
                 except IndexError:
                     pass
     return game_map, map_to_restore, start_pos, (0, 0)
 
-map_to_relax
+
 def main():
     parser = argparse.ArgumentParser(description="For exam-winter")
     parser.add_argument("filename", help="Path to file", type=str)
     args = parser.parse_args()
     game_map, map_to_restore, start_pos, end_pos = solve(*read_map(args.filename))
     game_map = restore(game_map, map_to_restore, start_pos, end_pos)
-    
     for i in game_map:
         print("".join(map(lambda x: CONFORMITY_TABLE_REVERSE[x], i)))
 
