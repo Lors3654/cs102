@@ -25,44 +25,43 @@ def restore(
     start_pos: tp.Tuple[int, int],
     end_pos: tp.Tuple[int, int],
 ):
-    curr_pos = map_to_relax[end_pos]
+    curr_pos = map_to_restore[end_pos]
     while curr_pos != start_pos:
         game_map[curr_pos[0]][curr_pos[1]] = 1
-        curr_pos = map_to_relax[curr_pos]
+        curr_pos = map_to_restore[curr_pos]
     return game_map
 
 
 def solve(game_map: tp.List[tp.List[int]], start_pos: tp.Tuple[int, int]):
     que = [start_pos]
-    map_to_relax = {start_pos: start_pos}
+    map_to_restore = {start_pos: start_pos}
     while que:
-        curr_checking_pos = que.pop(0)
+        curr_pos = que.pop(0)
         for i in range(-1, 2):
             for j in range(-1, 2):
                 if i != 0 and j != 0:
                     continue
-                if curr_checking_pos[0] - i < 0 or curr_checking_pos[1] - j < 0:
+                if curr_pos[0] - i < 0 or curr_pos[1] - j < 0:
                     continue
                 try:
-                    k, m = curr_checking_pos[0] - i, curr_checking_pos[1] - j
+                    k, m = curr_pos[0] - i, curr_pos[1] - j
                     if game_map[k][m] == 3:
-                        if not (k, m) in map_to_relax:
-                            map_to_relax.update({(k, m): curr_checking_pos})
-                            que.append((k, m))
+                        
                     if game_map[k][m] == 2:
-                        map_to_relax.update({(k, m): curr_checking_pos})
-                        return game_map, map_to_relax, start_pos, (k, m)
+                       
+                        return game_map, map_to_restore, start_pos, (k, m)
                 except IndexError:
                     pass
-    return game_map, map_to_relax, start_pos, (0, 0)
+    return game_map, map_to_restore, start_pos, (0, 0)
 
-
+map_to_relax
 def main():
-    args = parser.parse_args()
-    game_map, map_to_relax, start_pos, end_pos = solve(*read_map(args.filename))
-    game_map = restore(game_map, map_to_relax, start_pos, end_pos)
     parser = argparse.ArgumentParser(description="For exam-winter")
     parser.add_argument("filename", help="Path to file", type=str)
+    args = parser.parse_args()
+    game_map, map_to_restore, start_pos, end_pos = solve(*read_map(args.filename))
+    game_map = restore(game_map, map_to_restore, start_pos, end_pos)
+    
     for i in game_map:
         print("".join(map(lambda x: CONFORMITY_TABLE_REVERSE[x], i)))
 
