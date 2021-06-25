@@ -1,22 +1,21 @@
-from sqlalchemy import Column, String, Integer
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
+from sqlalchemy import Column, Integer, String, create_engine  # type: ignore
+from sqlalchemy.ext.declarative import declarative_base  # type: ignore
+from sqlalchemy.orm import sessionmaker  # type: ignore
 
 Base = declarative_base()
 engine = create_engine("sqlite:///news.db")
 session = sessionmaker(bind=engine)
 
 
-class News(Base):
+class News(Base):  # type: ignore
     __tablename__ = "news"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # type: ignore
     title = Column(String)
     author = Column(String)
     url = Column(String)
     comments = Column(Integer)
     points = Column(Integer)
     label = Column(String)
+
 
 Base.metadata.create_all(bind=engine)
