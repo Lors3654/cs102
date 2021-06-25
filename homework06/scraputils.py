@@ -14,12 +14,12 @@ def extract_news(parser: BeautifulSoup) -> List[Dict[str, Union[str, int]]]:
     """ Extract news from a given web page """
     news_list = []
 
-    trs = parser.table.find("table", {"class": "itemlist"}).findAll("tr")
-    for i in range(len(trs)):
-        tr = trs[i]
+    headlines = parser.table.find("table", {"class": "itemlist"}).findAll("tr")
+    for i in range(len(headlines)):
+        tr = headlines[i]
         if tr.get("class") is not None and "athing" in tr.get("class"):
             i += 1
-            info_tr = trs[i]
+            info_tr = headlines[i]
 
             title_link = tr.find("a", {"class": "storylink"})
             title = title_link.text
@@ -53,12 +53,11 @@ def extract_news(parser: BeautifulSoup) -> List[Dict[str, Union[str, int]]]:
 
 def extract_next_page(parser: BeautifulSoup) -> str:
     """ Extract next page URL """
-    more_links = parser.find("a", {"class": "morelink"})
-    return str(more_links["href"])
+    next = parser.find("a", {"class": "morelink"})
+    return str(next["href"])
 
 
 def get_news(url: str, n_pages: int = 1) -> List[Dict[str, Union[str, int]]]:
-    global last_url
 
     """ Collect news from a given web page """
     news = []
@@ -72,7 +71,5 @@ def get_news(url: str, n_pages: int = 1) -> List[Dict[str, Union[str, int]]]:
         url = "https://news.ycombinator.com/" + next_page
         news.extend(news_list)
         n_pages -= 1
-
-    last_url = url
 
     return news
