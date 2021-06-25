@@ -11,7 +11,7 @@ def get_last_url() -> str:
 
 
 def extract_news(parser: BeautifulSoup) -> List[Dict[str, Union[str, int]]]:
-    """ Extract news from a given web page """
+    """Extract news from a given web page"""
     news_list = []
 
     headlines = parser.table.find("table", {"class": "itemlist"}).findAll("tr")
@@ -52,14 +52,14 @@ def extract_news(parser: BeautifulSoup) -> List[Dict[str, Union[str, int]]]:
 
 
 def extract_next_page(parser: BeautifulSoup) -> str:
-    """ Extract next page URL """
+    """Extract next page URL"""
     next = parser.find("a", {"class": "morelink"})
     return str(next["href"])
 
 
 def get_news(url: str, n_pages: int = 1) -> List[Dict[str, Union[str, int]]]:
 
-    """ Collect news from a given web page """
+    """Collect news from a given web page"""
     news = []
     while n_pages:
         print("Collecting data from page: {}".format(url))
