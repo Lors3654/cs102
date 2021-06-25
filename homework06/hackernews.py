@@ -1,70 +1,91 @@
+from typing import Any, List
+
 from bottle import redirect, request, route, run, template  # type: ignore
-from sqlalchemy.orm import load_only  # type: ignore
+from sqlalchemy.orm import Session  # type: ignore
 
 from bayes import NaiveBayesClassifier
 from db import News, session
-from scraputils import get_news
+from scraputils import get_last_url, get_news
 
 
+def get_news_list(s: Session) -> List[News]:  # todo: get type
+    return s.query(News).filter(News.label == None).all()
+
+
+@route("/")
 @route("/news")
-def news_list():
+def news_list() -> Any:
     s = session()
-    rows = s.query(News).filter(News.label == None).all()
+    rows = get_news_list(s)
     return template("news_template", rows=rows)
 
 
+def add_label_to_db(s: Session, news_id: str, label: str) -> None:
+    s.query(News).filter(News.id == news_id).update({"label": label})
+
+
 @route("/add_label/")
-def add_label():
+def add_label() -> None:
     s = session()
-    news = s.query(News).filter(News.id == request.query.id).one()
-    news.label = request.query.label
-    s.commit()
+    label = request.query.label
+    news_id = request.query.id
+    if label is not None and news_id is not None:
+        add_label_to_db(s, news_id, label)
+        s.commit()
     redirect("/news")
+
+
+def is_new_exists(s: Session, title: str, author: str) -> bool:
+    return bool(s.query(News).filter(News.title == title, News.author == author).first())
+
+
+def get_news_in_db(s: Session) -> None:
+    news = get_news(get_last_url(), 1)
+    for new in news:
+        if is_new_exists(s, str(new.get("title")), str(new.get("author"))):
+            continue
+
+        news_db = News(**new)
+        s.add(news_db)
 
 
 @route("/update")
-def update_news():
+def update_news() -> None:
     s = session()
-    current_news = get_news("https://news.ycombinator.com/newest")
-    existing_news = s.query(News).options(load_only("title", "author")).all()
-    existing_t_a = [(news.title, news.author) for news in existing_news]
-    for news in current_news:
-        if (news["title"], news["author"]) not in existing_t_a:
-            news_add = News(
-                title=news["title"],
-                author=news["author"],
-                url=news["url"],
-                comments=news["comments"],
-                points=news["points"],
-            )
-            s.add(news_add)
+    get_news_in_db(s)
     s.commit()
-
     redirect("/news")
 
 
+def get_classified_news(
+    s: Session,
+) -> List[News]:
+    _class_to_points = {
+        "good": 1,
+        "maybe": 0,
+        "never": -1,
+    }
+    rows = s.query(News).filter(News.label != None).all()
+
+    bayes = NaiveBayesClassifier(0.05)
+    bayes.fit([row.title for row in rows], [row.label for row in rows])
+
+    raw_rows = s.query(News).filter(News.label == None).all()
+    classes = [_class_to_points[y] for y in bayes.predict([row.title for row in raw_rows])]
+
+    rows = [
+        row
+        for row, _class in sorted(zip(raw_rows, classes), key=lambda pair: pair[1], reverse=True)
+    ]
+    return rows
+
+
 @route("/classify")
-def classify_news():
+def classify_news() -> Any:
     s = session()
-    train_news = s.query(News).filter(News.label != None).all()
-    x_train = [row.title for row in train_news]
-    y_train = [row.label for row in train_news]
-    classifier.fit(x_train, y_train)
-    test_news = s.query(News).filter(News.label == None).all()
-    x = [row.title for row in test_news]
-    labels = classifier.predict(x)
-    good = [test_news[i] for i in range(len(test_news)) if labels[i] == "good"]
-    maybe = [test_news[i] for i in range(len(test_news)) if labels[i] == "maybe"]
-    never = [test_news[i] for i in range(len(test_news)) if labels[i] == "never"]
-    return template("news", {"good": good, "never": never, "maybe": maybe})
+    rows = get_classified_news(s)
+    return template("news_template", rows=rows)
 
 
 if __name__ == "__main__":
-    s = session()
-    classifier = NaiveBayesClassifier()
-    marked_news = s.query(News).filter(News.label != None).all()
-    x_train = [row.title for row in marked_news]
-    y_train = [row.label for row in marked_news]
-    classifier.fit(x_train, y_train)
-
     run(host="localhost", port=8080)
