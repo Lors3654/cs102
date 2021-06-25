@@ -23,6 +23,7 @@ jobs:
       run: |
         mypy ${{ github.head_ref }}
         mypy --ignore-missing-imports ${{ github.head_ref }}
+        mypy --install-types
     - name: Run pylint
       run: |
         pylint --exit-zero ${{ github.head_ref }}
