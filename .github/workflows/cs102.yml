@@ -16,14 +16,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install black mypy pylint
         pip install black mypy pylint pygame
+        pip install types-requests
     - name: Run black
       run: |
         black -l 100 --check --diff --color --exclude "test*" ${{ github.head_ref }}
     - name: Run mypy
       run: |
         mypy ${{ github.head_ref }}
-        mypy --ignore-missing-imports ${{ github.head_ref }}
-        mypy --install-types
+        mypy --ignore-missing-imports 
     - name: Run pylint
       run: |
         pylint --exit-zero ${{ github.head_ref }}
