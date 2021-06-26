@@ -1,7 +1,7 @@
 import dataclasses
 import typing as tp
 
-from httpserver import HTTPResponse
+from httpserver import HTTPResponse  # type:ignore
 
 
 @dataclasses.dataclass
