@@ -3,7 +3,7 @@ import io
 import sys
 import typing as tp
 
-from httpserver import HTTPRequest
+from httpserver import HTTPRequest  # type:ignore
 
 
 @dataclasses.dataclass
