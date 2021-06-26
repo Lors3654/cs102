@@ -8,8 +8,10 @@ from datetime import datetime
 from httptools import HttpRequestParser  # type: ignore
 from httptools.parser.errors import HttpParserCallbackError  # type: ignore
 from httptools.parser.errors import HttpParserError  # type: ignore
-from httptools.parser.errors import HttpParserInvalidMethodError  # type: ignore
-from httptools.parser.errors import HttpParserInvalidStatusError  # type: ignore
+from httptools.parser.errors import \
+    HttpParserInvalidMethodError  # type: ignore
+from httptools.parser.errors import \
+    HttpParserInvalidStatusError  # type: ignore
 from httptools.parser.errors import HttpParserInvalidURLError  # type: ignore
 from httptools.parser.errors import HttpParserUpgrade  # type: ignore
 

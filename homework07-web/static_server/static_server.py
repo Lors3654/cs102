@@ -6,13 +6,8 @@ import typing as tp
 from datetime import datetime
 from urllib.parse import quote, unquote, urlparse, urlunparse
 
-from httpserver import (
-    BaseHTTPRequestHandler,
-    BaseRequestHandler,
-    HTTPRequest,
-    HTTPResponse,
-    HTTPServer,
-)
+from httpserver import (BaseHTTPRequestHandler, BaseRequestHandler,
+                        HTTPRequest, HTTPResponse, HTTPServer)
 
 
 def url_normalize(path: str) -> str:
