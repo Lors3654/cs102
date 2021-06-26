@@ -3,7 +3,7 @@ import io
 import sys
 import typing as tp
 
-from httpserver import HTTPRequest  # type:ignore
+from httpserver import HTTPRequest
 
 
 @dataclasses.dataclass
@@ -33,6 +33,4 @@ class WSGIRequest(HTTPRequest):
 
         for header in self.headers:
             environ[f"HTTP_{header.decode().upper()}"] = self.headers[header].decode()
-
-        return environ
         return environ
