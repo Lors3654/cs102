@@ -2,3 +2,5 @@ bottle
 requests
 sqlalchemy
 bs4
+responses 
+sqlalchemy.orm
