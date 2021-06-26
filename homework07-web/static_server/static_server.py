@@ -73,7 +73,7 @@ class StaticHTTPRequestHandler(BaseHTTPRequestHandler):
             if request.method == b"HEAD":  # zerofy content if head request
                 content = b""
 
-        response = self.response_class(status=status, headers=headers, body=content)
+        response = self.response_klass(status=status, headers=headers, body=content)
 
         return response
 
