@@ -79,8 +79,24 @@ class StaticHTTPRequestHandler(BaseHTTPRequestHandler):
 
 
 class StaticServer(HTTPServer):
-    def __init__(self, document_root: str = "/", **kwargs):
-        super(StaticServer, self).__init__(**kwargs)
+    def __init__(
+        self,
+        host: str = "localhost",
+        port: int = 8080,
+        backlog_size: int = 1,
+        max_workers: int = 1,
+        timeout: tp.Optional[float] = 5,
+        request_handler_cls: tp.Type[StaticHTTPRequestHandler] = StaticHTTPRequestHandler,
+        document_root: pathlib.Path = pathlib.Path("."),
+    ) -> None:
+        super().__init__(
+            host=host,
+            port=port,
+            backlog_size=backlog_size,
+            max_workers=max_workers,
+            timeout=timeout,
+            request_handler_cls=request_handler_cls,
+        )
         self.document_root = document_root
 
 
