@@ -5,7 +5,7 @@ from pydantic import UUID4, BaseModel, EmailStr, Field, validator
 
 
 class TokenBase(BaseModel):
-    """ Return response data """
+    """Return response data"""
 
     token: UUID4 = Field(..., alias="access_token")
     expires: datetime
@@ -16,12 +16,12 @@ class TokenBase(BaseModel):
 
     @validator("token")
     def hexlify_token(cls, value):
-        """ Convert UUID to pure hex string """
+        """Convert UUID to pure hex string"""
         return value.hex
 
 
 class UserBase(BaseModel):
-    """ Return response data """
+    """Return response data"""
 
     id: int
     email: EmailStr
@@ -29,7 +29,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(BaseModel):
-    """ Validate request data """
+    """Validate request data"""
 
     email: EmailStr
     name: str
@@ -37,6 +37,6 @@ class UserCreate(BaseModel):
 
 
 class User(UserBase):
-    """ Return detailed response data with token """
+    """Return detailed response data with token"""
 
     token: TokenBase = {}

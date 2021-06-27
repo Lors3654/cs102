@@ -1,5 +1,5 @@
 import sqlalchemy #type:ignore
-from sqlalchemy.dialects.postgresql import UUID #type:ignore
+from sqlalchemy.dialects.postgresql import UUID # type:ignore
 
 metadata = sqlalchemy.MetaData()
 

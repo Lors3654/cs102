@@ -3,8 +3,8 @@ import random
 import string
 from datetime import datetime, timedelta
 
-from schemas import users as user_schema #type:ignore
-from sqlalchemy import and_ #type:ignore
+from schemas import users as user_schema # type:ignore
+from sqlalchemy import and_ # type:ignore
 
 from models.database import database
 from models.users import tokens_table, users_table
