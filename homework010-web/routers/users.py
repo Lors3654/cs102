@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from schemas import users # type:ignore
+from schemas import users  # type:ignore
 
 from utils import users as users_utils
 from utils.dependencies import get_current_user

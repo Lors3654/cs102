@@ -1,4 +1,4 @@
-import users as users_utils # type:ignore
+import users as users_utils  # type:ignore
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
